@@ -12,12 +12,10 @@ public class CatalogPage {
 
     private final WebDriver driver;
     private final WebDriverWait wait;
-    private final WebDriverWait longWait;
 
     public CatalogPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        this.longWait = new WebDriverWait(driver, Duration.ofSeconds(60));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     private final By productTitle = By.xpath("//*[contains(@class,'productTitle')]");
@@ -27,26 +25,27 @@ public class CatalogPage {
 
     @Step("Ожидаем загрузку страницы с товаром")
     public CatalogPage waitProductPageLoaded() {
-        longWait.until(ExpectedConditions.visibilityOfElementLocated(productTitle));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(productTitle));
         return this;
     }
 
     @Step("Нажимаем на кнопку 'Добавить в корзину'")
     public CatalogPage clickAddInBasketButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(addInBasketButton)).click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(addInBasketButton));
-        wait.until(ExpectedConditions.elementToBeClickable(inBasketButton));
+        driver.findElement(addInBasketButton).click();
+        driver.findElement(addInBasketButton).isEnabled();
+        driver.findElement(inBasketButton).isEnabled();
         return this;
     }
 
     @Step("Получаем название товара")
     public String getProductTitle() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(productTitle)).getText().trim();
+        String titleText = driver.findElement(productTitle).getText().trim();
+        return titleText;
     }
 
     @Step("Нажимаем на кнопку 'Корзина'")
     public BasketPage clickBasketButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(basketButton)).click();
+        driver.findElement(basketButton).click();
         return new BasketPage(driver);
     }
 }

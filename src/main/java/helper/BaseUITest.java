@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 
 import java.time.Duration;
 
-public class BaseUITest {
+public abstract class BaseUITest {
 
     protected WebDriver driver;
 
@@ -18,14 +18,11 @@ public class BaseUITest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
-        options.addArguments("--disable-extensions");
-        options.addArguments("--no-first-run");
-        options.addArguments("--disable-search-engine-choice-screen");
-        options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
     }
 
     @AfterMethod
