@@ -16,7 +16,7 @@ public class BasketPage {
     }
 
     private final By basketNotifyBadgeIcon = By.xpath("//*[@data-testid='basket-header']//*[contains(@class, 'notify')]");
-    private final By productTitle = By.xpath("//*[contains(@class,'productTitle')]");
+    private final By productTitle = By.xpath("//*[@class='list-item__good']/a");
 
     @Step("Проверяем количество товаров в корзине: '{productCount}'")
     public BasketPage checkBasketItemsCount(int productCount) {
@@ -31,7 +31,7 @@ public class BasketPage {
     public BasketPage checkProductInBasket(String productName) {
         boolean exists = driver.findElements(productTitle)
                 .stream()
-                .anyMatch(el -> el.getText().trim().equals(productName));
+                .anyMatch(el -> el.getAttribute("title").trim().equals(productName));
         assertTrue("Товар '" + productName + "' не найден в корзине", exists);
         return this;
     }

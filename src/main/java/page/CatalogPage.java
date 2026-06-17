@@ -32,7 +32,6 @@ public class CatalogPage {
     @Step("Нажимаем на кнопку 'Добавить в корзину'")
     public CatalogPage clickAddInBasketButton() {
         driver.findElement(addInBasketButton).click();
-        driver.findElement(addInBasketButton).isEnabled();
         driver.findElement(inBasketButton).isEnabled();
         return this;
     }
